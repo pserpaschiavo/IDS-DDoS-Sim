@@ -6,9 +6,19 @@ A motivação da criação desse repositório é ser um instrumento práticas de
 ### Pré-Requisitos:
 > Nesta lista, estão citadas as aplicações utilizadas no projeto. Porém, fica a critério do usuário optar por outras apliacações de sua preferência.
 
-- [Virtual Box] [^1]
-- [Vagrant] [^2]
-- [Snort]
-- [Hping3]
+- [Virtual Box] [^1]: (https://www.virtualbox.org/)
+- [Vagrant] [^2]: ()
+- [Snort]: (https://www.snort.org/)
+- [Hping3]: (https://www.kali.org/tools/hping3/)
+
+
+
+
+
+
+
+
+
+
 [^1]: O usuário pode optar, de acordo com a sua preferência, por outros aplicativos para criar as Máquinas Virtuais.
-[^2]: Nesse repositório é oferecido um script *Vagrantfile* de automatização dos recursos necessários para criar o laboratório virtual. Entretanto, o uso do Vargrant é facultativo.
+[^2]: Nesse repositório é oferecido um script *Vagrantfile* com o objetivo de criar o laboratório virtual com todas aplicações e dependencias já instaladas. Entretanto, o uso do Vargrant é facultativo.
