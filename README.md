@@ -16,14 +16,14 @@ Após o processo de instalação, o usuário poderá verificar a seguinte estrut
 inserir figura
 
 ## Preparação do Laboratório Virtual:
-### Pré-Requisitos:
+#### Pré-Requisitos:
 
 > Nesta lista, estão citadas as aplicações utilizadas no projeto. Porém, fica a critério do usuário optar por outras apliacações de sua preferência.
 
-- [Virtual Box] [^1]: (https://www.virtualbox.org/)
-- [Vagrant] [^2]: (https://www.vagrantup.com/)
-- [Snort]: (https://www.snort.org/)
-- [Hping3]: (https://www.kali.org/tools/hping3/)
+- Virtual Box [^1]: https://www.virtualbox.org/
+- Vagrant [^2]: https://www.vagrantup.com/
+- Snort: https://www.snort.org/
+- Hping3: https://www.kali.org/tools/hping3/
 
 
 ### Instalação do Virtualbox e do Vagrant:
