@@ -1,4 +1,27 @@
 Vagrant.configure("2") do |config|
+    (1..2).each do |i|
+        config.vm.define "gateway-#{i}" do |gateway|
+            gateway.vm.box = "ubuntu/focal64"
+            gateway.vm.hostname = "gateway-#{i}"
+            gateway.vm.network "private_network", ip: "11.0.0.1#{i}", virtualbox__intnet: true
+            
+            gateway.ssh.insert_key = false
+            gateway.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
+            gateway.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
+
+            gateway.vm.provision :shell, privileged: true, :path => "setup/gateway-#{i}.sh"
+
+            gateway.vm.provider "virtualbox" do |vb|
+                vb.gui = false
+                vb.cpus = 1
+                vb.memory = "1024"  
+            
+            end
+
+        end
+    
+    end
+
     config.vm.define "client" do |client|
         client.vm.box = "ubuntu/focal64"
         client.vm.hostname = "client"
@@ -12,7 +35,7 @@ Vagrant.configure("2") do |config|
 
         client.vm.provider "virtualbox" do |vb|
             vb.gui = false
-            vb.cpus = 2
+            vb.cpus = 1
             vb.memory = "1024"  
 
         end
@@ -35,29 +58,6 @@ Vagrant.configure("2") do |config|
             vb.cpus = 1
             vb.memory = "1024"
         
-        end
-    
-    end
-
-    (1..2).each do |i|
-        config.vm.define "gateway-#{i}" do |gateway|
-            gateway.vm.box = "ubuntu/focal64"
-            gateway.vm.hostname = "gateway-#{i}"
-            gateway.vm.network "private_network", ip: "11.0.0.#{i}"
-            
-            gateway.ssh.insert_key = false
-            gateway.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
-            gateway.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
-
-            gateway.vm.provision :shell, privileged: true, :path => "setup/gateway.sh"
-
-            gateway.vm.provider "virtualbox" do |vb|
-                vb.gui = false
-                vb.cpus = 1
-                vb.memory = "1024"  
-            
-            end
-
         end
     
     end
