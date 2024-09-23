@@ -22,18 +22,18 @@ Vagrant.configure("2") do |config|
     
     end
 
-    config.vm.define "client" do |client|
-        client.vm.box = "ubuntu/focal64"
-        client.vm.hostname = "client"
-        client.vm.network "private_network", ip: "172.89.0.10", virtualbox__intnet: true
+    config.vm.define "attacker" do |attacker|
+        attacker.vm.box = "ubuntu/focal64"
+        attacker.vm.hostname = "attacker"
+        attacker.vm.network "private_network", ip: "172.89.0.10", virtualbox__intnet: true
 
-        client.ssh.insert_key = false
-        client.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
-        client.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
+        attacker.ssh.insert_key = false
+        attacker.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
+        attacker.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
 
-        client.vm.provision :shell, privileged: true, :path => "setup/client.sh"
+        attacker.vm.provision :shell, privileged: true, :path => "setup/attacker.sh"
 
-        client.vm.provider "virtualbox" do |vb|
+        attacker.vm.provider "virtualbox" do |vb|
             vb.gui = false
             vb.cpus = 1
             vb.memory = "1024"  
