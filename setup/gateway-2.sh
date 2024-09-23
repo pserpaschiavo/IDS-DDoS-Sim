@@ -3,78 +3,83 @@
 sudo apt-get update
 sudo apt-get upgrade -y
 
-sudo apt-get install -y net-tools autoconf gcc make libpcre3-dev \
-    zlib1g-dev libluajit-5.1-dev libpcap-dev openssl libssl-dev \
-    libnghttp2-dev libdumbnet-dev bison flex libdnet autoconf libtool
+sudo apt install -y net-tools gcc make build-essential libpcap-dev libpcre3-dev \
+    libnet1-dev zlib1g-dev luajit hwloc libdnet-dev libdumbnet-dev bison flex \
+    liblzma-dev openssl libssl-dev pkg-config libhwloc-dev cmake cpputest \
+    libsqlite3-dev uuid-dev libcmocka-dev libnetfilter-queue-dev libmnl-dev \
+    autotools-dev libluajit-5.1-dev libunwind-dev libfl-dev
 
 
 ### Installing Snort:
 
-mkdir ~/snort_src
+mkdir -p /home/vagrant/snort_src
+cd /home/vagrant/snort_src
 
-cd ~/snort_src
-
-wget https://www.snort.org/downloads/snort/daq-2.0.7.tar.gz
-
-tar -xvzf daq-2.0.7.tar.gz
-
-cd daq-2.0.7
-
-autoreconf -f -i
-
+git clone https://github.com/snort3/libdaq.git
+cd /home/vagrant/snort_src/libdaq
+./bootstrap
 ./configure
 make
 sudo make install
 
-cd ~/snort_src
+cd /home/vagrant/snort_src
 
-wget https://www.snort.org/downloads/snort/snort-2.9.16.tar.gz
-
-tar -xvzf snort-2.9.16.tar.gz
-
-cd snort-2.9.16
-
-./configure --enable-sourcefire
-
+wget https://github.com/gperftools/gperftools/releases/download/gperftools-2.9.1/gperftools-2.9.1.tar.gz
+tar xzf gperftools-2.9.1.tar.gz
+cd gperftools-2.9.1/
+./configure
 make
-
 sudo make install
+
+cd..
+wget https://github.com/snort3/snort3/archive/refs/heads/master.zip
+unzip master.zip
+cd snort3-master
+./configure_cmake.sh --prefix=/usr/local --enable-tcmalloc
+
+cd build
+make
+sudo make installls 
 
 ### Configuring Snort to run in NIDS mode:
 
 sudo ldconfig
 
-sudo ln -s /usr/local/bin/snort /usr/sbin/snort
+snort -V
+
+snort -c /usr/local/etc/snort/snort.lua
+
+# sudo ln -s /usr/local/bin/snort /usr/sbin/snort
 
 
-### Setting up username and folder structure
+# ### Setting up username and folder structure
 
-sudo groupadd snort
+# sudo groupadd snort
 
-sudo useradd snort -r -s /sbin/nologin -c SNORT_IDS -g snort
+# sudo useradd snort -r -s /sbin/nologin -c SNORT_IDS -g snort
 
-sudo mkdir -p /etc/snort/rules
-sudo mkdir /var/log/snort
-sudo mkdir /usr/local/lib/snort_dynamicrules
+# sudo mkdir -p /etc/snort/rules
+# sudo mkdir /var/log/snort
+# sudo mkdir /usr/local/lib/snort_dynamicrules
 
-sudo chmod -R 5775 /etc/snort
-sudo chmod -R 5775 /var/log/snort
-sudo chmod -R 5775 /usr/local/lib/snort_dynamicrules
-sudo chown -R snort:snort /etc/snort
-sudo chown -R snort:snort /var/log/snort
-sudo chown -R snort:snort /usr/local/lib/snort_dynamicrules
+# sudo chmod -R 5775 /etc/snort
+# sudo chmod -R 5775 /var/log/snort
+# sudo chmod -R 5775 /usr/local/lib/snort_dynamicrules
+# sudo chown -R snort:snort /etc/snort
+# sudo chown -R snort:snort /var/log/snort
+# sudo chown -R snort:snort /usr/local/lib/snort_dynamicrules
 
-sudo touch /etc/snort/rules/white_list.rules
-sudo touch /etc/snort/rules/black_list.rules
-sudo touch /etc/snort/rules/local.rules
+# sudo touch /etc/snort/rules/white_list.rules
+# sudo touch /etc/snort/rules/black_list.rules
+# sudo touch /etc/snort/rules/local.rules
 
-sudo cp ~/snort_src/snort-2.9.16/etc/*.conf* /etc/snort
-sudo cp ~/snort_src/snort-2.9.16/etc/*.map /etc/snort
+# sudo cp ~/snort_src/snort-2.9.16/etc/*.conf* /etc/snort
+# sudo cp ~/snort_src/snort-2.9.16/etc/*.map /etc/snort
 
 ### Setting network interfaces and routes:
 
-ifconfig enp0s8:0 10.0.0.100
-route add -net 172.89.0.0/24 dev enp0s8
+sudo ifconfig enp0s8:0 10.0.0.100
+sudo route add -net 172.89.0.0/24 dev enp0s8
 
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.ipv4.ip_forward = 1

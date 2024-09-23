@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
             gateway.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
             gateway.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
 
-            gateway.vm.provision :shell, privileged: true, :path => "setup/gateway-#{i}.sh"
+            gateway.vm.provision :shell, privileged: false, :path => "setup/gateway-#{i}.sh"
 
             gateway.vm.provider "virtualbox" do |vb|
                 vb.gui = false
@@ -31,7 +31,7 @@ Vagrant.configure("2") do |config|
         attacker.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
         attacker.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
 
-        attacker.vm.provision :shell, privileged: true, :path => "setup/attacker.sh"
+        attacker.vm.provision :shell, privileged: false, :path => "setup/attacker.sh"
 
         attacker.vm.provider "virtualbox" do |vb|
             vb.gui = false
@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
         server.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
         server.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
 
-        server.vm.provision :shell, privileged: true, :path => "setup/server.sh"
+        server.vm.provision :shell, privileged: false, :path => "setup/server.sh"
 
         server.vm.provider "virtualbox" do |vb|
             vb.gui = false
