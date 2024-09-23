@@ -2,7 +2,8 @@
 
 Repositório para a prática e simulações de Detecção de Intrusão sob ataques de Negação de Serviço Distribuídos (DDoS).
 
-A motivação da criação desse repositório é ser um instrumento práticas de laboratório e de avaliação para a disciplina de Segurança Computacional, ofertada pelo Departamento de Informática da Universidade Federal do Espírito Santo (UFES).
+A motivação da criação desse repositório é ser um instrumento didático para práticas de laboratório computacional.[^*] 
+
 
 ## Laboratório Virtual
 
@@ -172,3 +173,4 @@ alert udp $EXTERNAL_NET any -> $HOME_NET 53 (msg:”UDP SCAN DETECTED”; thresh
 
 [^1]: O usuário pode optar, de acordo com a sua preferência, por outros aplicativos para criar as Máquinas Virtuais.
 [^2]: Nesse repositório é oferecido um script *Vagrantfile* com o objetivo de criar o laboratório virtual com todas aplicações e dependencias já instaladas. Entretanto, o uso do Vargrant é facultativo.
+[^*]: O uso inapropriado desse repositório é de responsabilidade do usuário.
