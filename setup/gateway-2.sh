@@ -71,7 +71,7 @@ sudo touch /etc/snort/rules/local.rules
 sudo cp ~/snort_src/snort-2.9.16/etc/*.conf* /etc/snort
 sudo cp ~/snort_src/snort-2.9.16/etc/*.map /etc/snort
 
-### Configur network interfaces and routes:
+### Setting network interfaces and routes:
 
 ifconfig enp0s8:0 10.0.0.100
 route add -net 172.89.0.0/24 dev enp0s8
