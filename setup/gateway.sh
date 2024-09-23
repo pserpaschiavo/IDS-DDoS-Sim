@@ -6,7 +6,7 @@ sudo apt-get upgrade -y
 sudo apt-get install -y net-tools
 
 sudo ifconfig enp0s8:0 172.89.0.100
-sudo route add -net 10.0.0.0/24 dev enp0s8
+sudo ifconfig enp0s8:1 10.0.0.100
 
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.ipv4.ip_forward = 1
