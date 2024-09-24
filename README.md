@@ -101,12 +101,12 @@ snort -V
 
 Depois de verificar a instalação, faça o download das regras para o **Snort**[^4]:
 ```
-wget 
+wget https://raw.githubusercontent.com/pserpaschiavo/IDS-DDoS-Sim/refs/heads/main/rules/lab_snort_rules.txt
 ```
 
 Para inserir no arquivo `local.rules`:
 ```
-cat lab_snort_rules.txt >> /etc/snort/rules/local.rules
+cat lab_snort_rules.txt | sudo tee /etc/snort/rules/local.rules
 ```
 
 ## Simulações:
@@ -269,6 +269,10 @@ sudo hping3 -2 10.0.0.10 -p 53
 ```
 alert udp $EXTERNAL_NET any -> $HOME_NET 53 (msg:”UDP SCAN DETECTED”; threshold:type threshold, track by_dst, count 20, seconds 60; classtype:attempted-recon; sid:10000006;rev:1;)
 ```
+
+### Vídeos:
+
+ [[Cyber Security Project] Detecting DDOS Attacks and Port Scanning Techniques with Snort](https://www.youtube.com/watch?v=V7IQPRWobvQ&t=132s) 
 
 
 [^1]: O usuário pode optar, de acordo com a sua preferência, por outros aplicativos para criar as Máquinas Virtuais.
