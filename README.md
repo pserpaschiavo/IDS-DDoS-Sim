@@ -9,7 +9,7 @@ A motivação da criação desse repositório é ser um instrumento didático pa
 
 Nesse repositório é oferecido um ambiente controlado e isolado para a simulação dos ataques.
 
-Foi levado em consideração a criação de um [*Passo a Passo*]() para usuários que possuem diferentes Sistemas Operacionais. 
+Foi levado em consideração a criação de um [*Passo a Passo*](https://github.com/pserpaschiavo/IDS-DDoS-Sim/blob/main/INSTALLATION.md#guia-para-instala%C3%A7%C3%A3o-do-virtualbox-e-do-vagrant) para usuários que possuem diferentes Sistemas Operacionais. 
 
 Entretando, o grupo que criou esse repositório realizou os testes em computadores com o sistema operacional baseado em GNU/Linux.
 
@@ -32,9 +32,9 @@ Após o processo de instalação, o usuário poderá verificar a seguinte estrut
 
 ### Instalação do Virtualbox e do Vagrant:
 
-- [Para usários de Linux]: (inserir link)
-- [Para usuários de Windows]: (inserir link)
-- [Para usuários de MacOS]: (inserir link)
+- [Para usuários de Windows](https://github.com/pserpaschiavo/IDS-DDoS-Sim/blob/main/INSTALLATION.md#windows)
+- [Para usuários de MacOS](https://github.com/pserpaschiavo/IDS-DDoS-Sim/blob/main/INSTALLATION.md#macos)
+- [Para usários de Linux](https://github.com/pserpaschiavo/IDS-DDoS-Sim/blob/main/INSTALLATION.md#linux)
 
 ### Preparação das Máquinas Virtuais:
 
@@ -139,7 +139,7 @@ Para cada ataque realizado usando o **Hping3**, o usuário deve fazer alteraçõ
 alert udp any any -> $HOME_NET 53 (threshold: type threshold, track by_src, count 10, seconds 60; msg:”UDP FLOODING ATTACK”;sid:10000007;rev:2;)
 ```
 
-### Realizando Ataques de Negação de Serviço Distribuído(DDoS) e Detectando-os:
+### Realizando Ataques de Negação de Serviço Distribuído (DDoS) e Detectando-os:
 
 #### Land Attack
 
@@ -197,7 +197,7 @@ sudo hping3 -2 — flood — rand-source -p 53 10.0.0.10
 alert udp any any -> $HOME_NET 53 (threshold: type threshold, track by_src, count 10, seconds 60; msg:”UDP FLOODING ATTACK”;sid:10000007;rev:2;)
 ```
 
-### Realizando Scanner de Porta(*Port Scanning*) e Detectando-os:
+### Realizando Scanner de Porta (*Port Scanning*) e Detectando-os:
 
 #### TCP ACK Scan
 
