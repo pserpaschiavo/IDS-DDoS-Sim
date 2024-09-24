@@ -16,7 +16,8 @@ Entretando, o grupo que criou esse repositório realizou os testes em computador
 ### Estrutura do Laboratório Virtual
 
 Após o processo de instalação, o usuário poderá verificar a seguinte estrutura de máquinas virtuais:
-inserir figura
+
+![arquitetura](images/estrutura_ids_ddos_sim.drawio.png)
 
 ## Preparação e Configurações do Laboratório Virtual:
 #### Pré-Requisitos:
@@ -65,14 +66,14 @@ Após o término do processo de ativação das máquinas virtuais, o usuário po
 vagrant ssh <nome-da-máquina-virtual>
 ```
 
-### Instalação do *Snort*
+### Instalação do **Snort**
 
 Faça o acesso remoto no *Gateway*:
 ```
 vagrant ssh gateway
 ```
 
-Quando o acesso for realizado, digite o comando para a instalação do *Snort*:
+Quando o acesso for realizado, digite o comando para a instalação do **Snort**:
 
 ```
 sudo apt install snort 
@@ -81,36 +82,61 @@ sudo apt install snort
 Durante a instalação, será exibida uma tela para a identificação da interface de rede:
 
 - **Nome da Interface**: enp0s8
-- ** Bloco de IP's/CIDR**: 10.0.0.0/24
+
+![snort-interface](images/interface.png)
+
+- **Bloco de IP's/CIDR**: 10.0.0.0/24
+
+![snort-cidr](images/cidr.png)
+
 
 Após a instalação, verifique se foi concluida com sucesso:
 
 ```
-snort -V 
+snort -V
+```
+
+![snort-cidr](images/check-ok.png)
+
+
+Depois de verificar a instalação, faça o download das regras para o **Snort**[^4]:
+```
+wget 
+```
+
+Para inserir no arquivo `local.rules`:
+```
+cat lab_snort_rules.txt >> /etc/snort/rules/local.rules
 ```
 
 ## Simulações:
 
 Abra dois terminais e faça o acesso remoto nas máquinas *Attacker* e *Gateway*:
-```
-## Terminal-1
-vagrant ssh attacker
 
-## Terminal-2
+### Terminal-1
+
+```
+vagrant ssh attacker
+```
+
+### Terminal-2
+
+```
 vagrant ssh gateway
 ```
 
-Para cada ataque realizado usando o *Hping3*, o usuário deve fazer alterações no arquivo de regras do *Snort*, retirando o caractere `#` no início da expressão:
+Para cada ataque realizado usando o **Hping3**, o usuário deve fazer alterações no arquivo de regras do **Snort**, retirando o caractere `#` no início da expressão:
 
-- Regra Desativada
-```
-
-```
-
-- Regra Ativada
+- Regra Desativada:
 
 ```
+# alert udp any any -> $HOME_NET 53 (threshold: type threshold, track by_src, count 10, seconds 60; msg:”UDP FLOODING ATTACK”;sid:10000007;rev:2;)
+```
 
+- Regra Ativada:
+
+```
+alert udp any any -> $HOME_NET 53 (threshold: type threshold, track by_src, count 10, seconds 60; msg:”UDP FLOODING ATTACK”;sid:10000007;rev:2;)
 ```
 
 ### Realizando Ataques de Negação de Serviço Distribuído(DDoS) e Detectando-os:
