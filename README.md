@@ -76,7 +76,7 @@ vagrant ssh gateway
 Quando o acesso for realizado, digite o comando para a instalação do **Snort**:
 
 ```
-sudo apt install snort 
+sudo apt install -y snort 
 ```
 
 Durante a instalação, será exibida uma tela para a identificação da interface de rede:
@@ -125,7 +125,10 @@ vagrant ssh attacker
 vagrant ssh gateway
 ```
 
-Para cada ataque realizado usando o **Hping3**, o usuário deve fazer alterações no arquivo de regras do **Snort**, retirando o caractere `#` no início da expressão:
+Para cada ataque realizado usando o **Hping3** *(Attacker)*, o usuário deve fazer alterações no arquivo de regras do **Snort** *(Gateway)*, retirando o caractere `#` no início da expressão do arquivo `/etc/snort/rules/local.rules`:
+```
+sudo nano /etc/snort/rules/local.rules
+```
 
 - Regra Desativada:
 
@@ -140,6 +143,8 @@ alert udp any any -> $HOME_NET 53 (threshold: type threshold, track by_src, coun
 ```
 
 ### Realizando Ataques de Negação de Serviço Distribuído (DDoS) e Detectando-os:
+
+
 
 #### Land Attack
 
