@@ -10,7 +10,7 @@
 
   ### Smurf Attack:
  
-# alert icmp $HOME_NET any -> 192.168.0.255 any (threshold: type threshold, track by_src, count 20, seconds 60;msg:”SMURF FLOODING ATTACK DETECTED”;sid:100000023;rev:1;)
+# alert icmp $HOME_NET any -> 172.89.0.255 any (threshold: type threshold, track by_src, count 20, seconds 60;msg:”SMURF FLOODING ATTACK DETECTED”;sid:100000023;rev:1;)
  
     
   ### UDP Flood Attack:

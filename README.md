@@ -146,7 +146,7 @@ alert udp any any -> $HOME_NET 53 (threshold: type threshold, track by_src, coun
 - Hping3: 
 
 ```
-sudo hping3 -S 10.0.0.10 -a 10.0.0.10 -k -s 80 -p 80 –flood
+sudo hping3 -S 10.0.0.10 -a 10.0.0.10 -k -s 80 -p 80 --flood
 ```
 
 - Snort Rule:
@@ -160,7 +160,7 @@ alert tcp $HOME_NET 80 <> $HOME_NET 80 (msg:”LAND ATTACK DETECTED”;sid:10000
 - Hping3: 
 
 ```
-sudo hping3 — rand-source 10.0.0.10 -p 80 -S –flood
+sudo hping3 --rand-source 10.0.0.10 -p 80 -S --flood
 ```
 
 - Snort Rule: 
@@ -174,7 +174,7 @@ alert tcp any any -> $HOME_NET 80 (threshold: type threshold, track by_dst, coun
 - Hping3: 
 
 ```
-sudo hping3 -1 — icmptype 8 — icmpcode 0 -k — flood -a 10.0.0.10 192.168.0.255
+sudo hping3 -1 --icmptype 8 --icmpcode 0 -k --flood -a 10.0.0.10 192.168.0.255
 ```
 
 - Snort Rule:
@@ -188,7 +188,7 @@ alert icmp $HOME_NET any -> 192.168.0.255 any (threshold: type threshold, track 
 - Hping3: 
 
 ```
-sudo hping3 -2 — flood — rand-source -p 53 10.0.0.10
+sudo hping3 -2 --flood --rand-source -p 53 10.0.0.10
 ```
 
 - Snort Rule: 

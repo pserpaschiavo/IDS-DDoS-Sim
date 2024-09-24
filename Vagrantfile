@@ -8,12 +8,17 @@ Vagrant.configure("2") do |config|
         gateway.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
         gateway.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
 
-        gateway.vm.provision :shell, privileged: false, :path => "setup/gateway.sh"
+        gateway.vm.provision "shell", privileged: true, inline: <<-SHELL
+            apt-get install -y net-tools
+            ifconfig enp0s8:0 172.89.0.100
+            ifconfig enp0s8:1 10.0.0.100
+            ifconfig
+        SHELL
 
         gateway.vm.provider "virtualbox" do |vb|
             vb.gui = false
-            vb.cpus = 1
-            vb.memory = "1024"  
+            vb.cpus = 2
+            vb.memory = "2048"  
         
         end
 
@@ -29,12 +34,18 @@ Vagrant.configure("2") do |config|
         attacker.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
         attacker.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
 
-        attacker.vm.provision :shell, privileged: false, :path => "setup/attacker.sh"
+        attacker.vm.provision "shell", privileged: true, inline: <<-SHELL
+            apt update
+            apt install -y net-tools hping3
+            route add default gw 172.89.0.100
+            route add -net 10.0.0.0/24 dev enp0s8
+            ifconfig
+        SHELL
 
         attacker.vm.provider "virtualbox" do |vb|
             vb.gui = false
-            vb.cpus = 1
-            vb.memory = "1024"  
+            vb.cpus = 2
+            vb.memory = "2048"  
 
         end
     
@@ -49,7 +60,12 @@ Vagrant.configure("2") do |config|
         server.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
         server.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
 
-        server.vm.provision :shell, privileged: false, :path => "setup/server.sh"
+        server.vm.provision "shell", privileged: true, inline: <<-SHELL
+            apt-get install -y net-tools
+            route add default gw 10.0.0.100
+            route add -net 172.89.0.0/24 dev enp0s8
+            ifconfig
+        SHELL
 
         server.vm.provider "virtualbox" do |vb|
             vb.gui = false
