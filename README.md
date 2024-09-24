@@ -126,6 +126,7 @@ vagrant ssh gateway
 ```
 
 Para cada ataque realizado usando o **Hping3** *(Attacker)*, o usuário deve fazer alterações no arquivo de regras do **Snort** *(Gateway)*, retirando o caractere `#` no início da expressão do arquivo `/etc/snort/rules/local.rules`:
+
 ```
 sudo nano /etc/snort/rules/local.rules
 ```
@@ -146,7 +147,8 @@ alert udp any any -> $HOME_NET 53 (threshold: type threshold, track by_src, coun
 
 Para monitorar os pacotes que atravessam o *Gateway*, é necessário usar o comando:
 ```
-
+sudo snort 
+```
 
 #### Land Attack
 
