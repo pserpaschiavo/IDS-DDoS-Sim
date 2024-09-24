@@ -1,6 +1,7 @@
 # Guia para instalação do VirtualBox e do Vagrant.
 
 > Esse guia tem como objetivo orientar usuários iniciantes.
+
 > Os autores desse repositório recomenda o uso do VirtualBox junto com o Vagrant devido à facilidade de automatizar os processos de preparação do laboratório virtual[^1].
 
 ## Windows:
@@ -36,6 +37,7 @@ Para usuários de MacOS, seguem os links necessários para a realização do dow
 ### VirtualBox:
 
 > É recomendado a leitura prévia da documentação antes da instalação.
+
 > Antes de Realizar o dowload e a instalação, verifique a compatibilidade do seu hardware.
 
 **Site Oficial**: https://www.virtualbox.org/
@@ -66,6 +68,7 @@ brew install hashicorp/tap/hashicorp-vagrant
 ### VirtualBox:
 
 > É recomendado a leitura prévia da documentação antes da instalação.
+
 > Antes de realizar o download e a instalação, verifique a sua distribuição.
 
 **Site Oficial**: https://www.virtualbox.org/

@@ -18,7 +18,7 @@ Entretando, o grupo que criou esse repositório realizou os testes em computador
 Após o processo de instalação, o usuário poderá verificar a seguinte estrutura de máquinas virtuais:
 inserir figura
 
-## Preparação do Laboratório Virtual:
+## Preparação e Configurações do Laboratório Virtual:
 #### Pré-Requisitos:
 
 > Nesta lista, estão citadas as aplicações utilizadas no projeto. Porém, fica a critério do usuário optar por outras apliacações de sua preferência.
@@ -35,9 +35,83 @@ inserir figura
 - [Para usuários de Windows]: (inserir link)
 - [Para usuários de MacOS]: (inserir link)
 
-### Preparação do Laboratório:
+### Preparação das Máquinas Virtuais:
+
+Após a instalação do **VirtualBox** e do **Vagrant**, siga as etapas abaixo:
+
+Para fazer o dowload deste repositório, acesse a pasta de destino e digite o comando:
+
+```
+git clone https://github.com/pserpaschiavo/IDS-DDoS-Sim.git
+```
+
+Para *Hosts* com sistemas operacionais baseados em Linux e MacOS, faça a configuração dos blocos de IP's que estão configurados para o laboratório virtual:
+
+```
+cat <<EOF | sudo tee /etc/vbox/networks.conf
+* 10.0.0.0/8 172.89.0.0/24 192.168.0.0/16 11.0.0.0/16
+* 2001::/64
+EOF
+```
+
+Agora, acesse o diretório do repositório e ative as máquinas virtuais:
+```
+vagrant up
+```
+
+Após o término do processo de ativação das máquinas virtuais, o usuário poderá fazer o acesso remoto através do comando:
+
+```
+vagrant ssh <nome-da-máquina-virtual>
+```
+
+### Instalação do *Snort*
+
+Faça o acesso remoto no *Gateway*:
+```
+vagrant ssh gateway
+```
+
+Quando o acesso for realizado, digite o comando para a instalação do *Snort*:
+
+```
+sudo apt install snort 
+```
+
+Durante a instalação, será exibida uma tela para a identificação da interface de rede:
+
+- **Nome da Interface**: enp0s8
+- ** Bloco de IP's/CIDR**: 10.0.0.0/24
+
+Após a instalação, verifique se foi concluida com sucesso:
+
+```
+snort -V 
+```
 
 ## Simulações:
+
+Abra dois terminais e faça o acesso remoto nas máquinas *Attacker* e *Gateway*:
+```
+## Terminal-1
+vagrant ssh attacker
+
+## Terminal-2
+vagrant ssh gateway
+```
+
+Para cada ataque realizado usando o *Hping3*, o usuário deve fazer alterações no arquivo de regras do *Snort*, retirando o caractere `#` no início da expressão:
+
+- Regra Desativada
+```
+
+```
+
+- Regra Ativada
+
+```
+
+```
 
 ### Realizando Ataques de Negação de Serviço Distribuído(DDoS) e Detectando-os:
 
