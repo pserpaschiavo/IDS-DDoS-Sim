@@ -144,6 +144,8 @@ alert udp any any -> $HOME_NET 53 (threshold: type threshold, track by_src, coun
 
 ### Realizando Ataques de Negação de Serviço Distribuído (DDoS) e Detectando-os:
 
+Para monitorar os pacotes que atravessam o *Gateway*, é necessário usar o comando:
+```
 
 
 #### Land Attack
