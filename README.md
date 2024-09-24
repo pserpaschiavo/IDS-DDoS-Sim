@@ -276,5 +276,5 @@ alert udp $EXTERNAL_NET any -> $HOME_NET 53 (msg:”UDP SCAN DETECTED”; thresh
 
 
 [^1]: O usuário pode optar, de acordo com a sua preferência, por outros aplicativos para criar as Máquinas Virtuais.
-[^2]: Nesse repositório é oferecido um script *Vagrantfile* com o objetivo de criar o laboratório virtual com todas aplicações e dependencias já instaladas. Entretanto, o uso do Vargrant é facultativo.
+[^2]: É oferecido um script *Vagrantfile* com o objetivo de criar o laboratório virtual com todas aplicações (com excessão do **Snort**) e dependencias já instaladas. Entretanto, o uso do Vargrant é facultativo.
 [^*]: O uso inapropriado desse repositório é de responsabilidade do usuário.
