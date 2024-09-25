@@ -11,8 +11,7 @@ Vagrant.configure("2") do |config|
         gateway.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
 
         gateway.vm.provision "shell", privileged: true, inline: <<-SHELL
-            sudo apt update
-            apt-get install -y net-tools
+v            apt-get install -y net-tools
             ifconfig
         SHELL
 

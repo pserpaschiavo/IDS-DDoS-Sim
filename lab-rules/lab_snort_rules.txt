@@ -7,11 +7,11 @@
 
 ### Ping Detection (For Tests Purposes):
 
-alert icmp $EXTERNAL_NET any -> $HOME_NET any (msg: “ICMP Ping Detected”; sid: 100001; rev:1;)
+# alert icmp $EXTERNAL_NET any -> $HOME_NET any (msg: “ICMP Ping Detected”; sid: 100001; rev:1;)
 
 ### SSH Connection (For Tests Purposes):
 
-alert tcp any any -> $HOME_NET 22 (msg:"SSH Authentication Attempt"; sid:100002; rev:1;)
+# alert tcp any any -> $HOME_NET 22 (msg:"SSH Authentication Attempt"; sid:100002; rev:1;)
 
 
 ### Land Attack:
