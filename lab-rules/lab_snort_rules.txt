@@ -5,6 +5,15 @@
 # This file intentionally does not come with signatures.  Put your local
 # additions here.
 
+### Ping Detection (For Tests Purposes):
+
+alert icmp $EXTERNAL_NET any -> $HOME_NET any (msg: “ICMP Ping Detected”; sid: 100001; rev:1;)
+
+### SSH Connection (For Tests Purposes):
+
+alert tcp any any -> $HOME_NET 22 (msg:"SSH Authentication Attempt"; sid:100002; rev:1;)
+
+
 ### Land Attack:
 
 # alert tcp $HOME_NET 80 <> $HOME_NET 80 (msg:”LAND ATTACK DETECTED”;sid:10000009;rev:3;)
