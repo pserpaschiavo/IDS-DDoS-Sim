@@ -176,8 +176,9 @@ Acesse o link para a seção das [Simulações]() para continuar...
 
 ### Vídeos:
 
- [Installing & Configuring Snort por *HackerSploit*](https://www.youtube.com/watch?v=U6xMp-MIEfA)
- [Intrusion Detection With Snort por *HackerSploit*](https://www.youtube.com/watch?v=Gh0sweT-G30)
+[Installing & Configuring Snort por *HackerSploit*](https://www.youtube.com/watch?v=U6xMp-MIEfA)
+
+[Intrusion Detection With Snort por *HackerSploit*](https://www.youtube.com/watch?v=Gh0sweT-G30)
 
 
 [^1]: O usuário pode optar, de acordo com a sua preferência, por outros aplicativos para criar as Máquinas Virtuais.
