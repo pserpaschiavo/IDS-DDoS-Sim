@@ -76,19 +76,25 @@ vagrant ssh gateway
 Quando o acesso for realizado, digite o comando para a instalação do **Snort**:
 
 ```
+sudo apt update
 sudo apt install -y snort 
 ```
 
 Durante a instalação, será exibida uma tela para a identificação da interface de rede:
 
-- **Nome da Interface**: enp0s8
+> No processo de instalação do **Snort**, serão exibidos na tela algumas interrupções pedindo informações sobre as interfaces e o bloco de IP's (*CIDR*). Nesse momento, é necessária a atenção para inserir as informações corretas e garantir o funcionamento do laboratório! 
 
-![snort-interface](images/interface.png)
+- **Nome da Interface**: enp0s8 *(Primeiro pedido)*
 
-- **Bloco de IP's/CIDR**: 10.200.255.0/24
+![snort-interface](images/interface-entrada.png)
+
+- **Bloco de IP's/CIDR**: 10.200.255.0/24 *(Segundo pedido)*
 
 ![snort-cidr](images/cidr.png)
 
+- **Nome da Interface**: enp0s10 *(Terceiro pedido)*
+
+![snort-interface](images/interface-saida.png)
 
 Após a instalação, verifique se foi concluida com sucesso:
 
@@ -100,7 +106,7 @@ snort -V
 
 Depois de verificar a instalação, faça o download das regras para o **Snort**[^4]:
 ```
-wget https://raw.githubusercontent.com/pserpaschiavo/IDS-DDoS-Sim/refs/heads/main/rules/lab_snort_rules.txt
+wget https://raw.githubusercontent.com/pserpaschiavo/IDS-DDoS-Sim/refs/heads/main/lab-rules/lab_snort_rules.txt
 ```
 
 Para inserir no arquivo `local.rules`:
@@ -111,180 +117,67 @@ cat lab_snort_rules.txt | sudo tee /etc/snort/rules/local.rules
 Agora, digite o seguinte comando para configurar a interface no modo *"Promisc"*:
 ```
 sudo ip link set enp0s8 promisc on
+sudo ip link set enp0s10 promisc on
 ```
 
 ## Preparação do Ambiente de Simulações:
 
 Na máquina virtual *Gateway*, acesse o arquivo `snort.conf`:
+
+> Aqui é usado o **Vi/Vim Text Editor**. Entretanto, fique a vontade para usar o editor de texto de sua preferência.
+
 ```
-sudo nano /ect/snort/snort.conf
+sudo vi /ect/snort/snort.conf
 ```
+
+Na linha 51, substitue o valor `ipvar HOME_NET any` por `ipvar HOME_NET 10.200.255.0/24`.
+
+Assim, digite o comando a seguir para exibir o relatório das *rules* pré-configuradas.
+
+```
+sudo snort -T -i enp0s8 -c /etc/snort/snort.conf
+```
+
+> O **Snort** fará um relatório e exibirá na tela todas as informações configuradas. Algumas linhas informará ao usuário de regras duplicadas. Essas informações podem ser ignoradas nesse momento:
+
+![primeiro-relatorio](images/primeiro-relatorio.png)
+
+Como o objetivo do laboratório é didático, as regras já definidas serão desativadas para inclusão de novas a fim de demonstrar um cenário próprio do laboratório.
+
+Para isso, as regras serão comentadas `#` entre as linhas 578 até a 696:
+
+1. Acesse o arquivo `snort.conf` com o editor de texto Vi: `sudo vi /etc/snort/snort.conf`;
+
+2. Digite a seguinte expressão: `:578,696s/^/#` e aperte a tecla *Enter*;
+
+3. Salve o arquivo;
+
+4. Execute o comando novamente:  
+
+```
+sudo snort -T -i enp0s8 -c /etc/snort/snort.conf
+```
+
+Confira se as alterações foram feitas:
+
+![segundo-relatorio](images/segundo-relatorio.png)
 
 
 Ainda com o *Gateway* conectado, abra um novo terminal e faça o acesso remoto na máquina *Attacker*:
+
+![terminais](images/terminais.png)
 
 ```
 vagrant ssh attacker
 ```
 
-Para cada ataque realizado usando o **Hping3** *(Attacker)*, o usuário deve fazer alterações no arquivo de regras do **Snort** *(Gateway)*, retirando o caractere `#` no início da expressão do arquivo `/etc/snort/rules/local.rules`:
+Acesse o link para a seção das [Simulações]() para continuar...
 
-```
-sudo nano /etc/snort/rules/local.rules
-```
-
-- *Gateway*:
-- Regra Desativada:
-
-```
-# alert udp any any -> $HOME_NET 53 (threshold: type threshold, track by_src, count 10, seconds 60; msg:”UDP FLOODING ATTACK”;sid:10000007;rev:2;)
-```
-
-- Regra Ativada:
-
-```
-alert udp any any -> $HOME_NET 53 (threshold: type threshold, track by_src, count 10, seconds 60; msg:”UDP FLOODING ATTACK”;sid:10000007;rev:2;)
-```
-
-### Realizando Ataques de Negação de Serviço Distribuído (DDoS) e Detectando-os:
-
-Para monitorar os pacotes que atravessam o *Gateway*, é necessário usar o comando:
-```
-sudo snort 
-```
-
-#### Land Attack
-
-- Hping3: 
-
-```
-sudo hping3 -S 10.0.0.10 -a 10.0.0.10 -k -s 80 -p 80 --flood
-```
-
-- Snort Rule:
-
-```
-alert tcp $HOME_NET 80 <> $HOME_NET 80 (msg:”LAND ATTACK DETECTED”;sid:10000009;rev:3;)
-```
-
-#### SYN Flood Attack
-
-- Hping3: 
-
-```
-sudo hping3 --rand-source 10.0.0.10 -p 80 -S --flood
-```
-
-- Snort Rule: 
-
-```
-alert tcp any any -> $HOME_NET 80 (threshold: type threshold, track by_dst, count 20, seconds 60; msg: “Possible TCP SYN Flood attack detected”; sid: 10000009; rev: 1;)
-```
-
-#### Smurf Attack
-
-- Hping3: 
-
-```
-sudo hping3 -1 --icmptype 8 --icmpcode 0 -k --flood -a 10.0.0.10 192.168.0.255
-```
-
-- Snort Rule:
-
-```
-alert icmp $HOME_NET any -> 192.168.0.255 any (threshold: type threshold, track by_src, count 20, seconds 60;msg:”SMURF FLOODING ATTACK DETECTED”;sid:100000023;rev:1;)
-```
-    
-#### UDP Flood Attack:
-
-- Hping3: 
-
-```
-sudo hping3 -2 --flood --rand-source -p 53 10.0.0.10
-```
-
-- Snort Rule: 
-
-```
-alert udp any any -> $HOME_NET 53 (threshold: type threshold, track by_src, count 10, seconds 60; msg:”UDP FLOODING ATTACK”;sid:10000007;rev:2;)
-```
-
-### Realizando Scanner de Porta (*Port Scanning*) e Detectando-os:
-
-#### TCP ACK Scan
-
-- Hping3: 
-
-```
-sudo hping3 -V -p 80 -s 5050 -A 10.0.0.10 -k
-```
-
-- Snort Rule:
-
-```
-alert tcp $EXTERNAL_NET 5050 -> $HOME_NET 80 (threshold: type threshold, track by_dst, count 20, seconds 60; msg:”TCP SCAN DETECTED”;sid:10000007;rev:2;)
-```
-
-#### TCP FIN Scan
-
-- Hping3:
-
-```
-sudo hping3 -V -p 80 -s 5050 -F 10.0.0.10 -k
-```
-
-- Snort Rule: 
-
-```
-alert tcp $EXTERNAL_NET 5050 -> $HOME_NET 80 (msg:”TCP FIN Scan Detected”; flags:F; threshold:type threshold, track by_src, count 20, seconds 60;classtype:attempted-recon; sid:10000001; rev:1;)
-```
-
-
-#### TCP NULL Scan
-
-- Hping3: 
-
-```
-sudo hping3 -V -p 80 -s 5050 -Y 10.0.0.10 -k
-```
-
-
-- Snort Rule: 
-
-```
-alert tcp $EXTERNAL_NET 5050 -> $HOME_NET 80 (msg:”Null Scan Detected”; flags:0; threshold:type threshold, track by_src, count 20, seconds 60; classtype:attempted-recon; sid:1000002; rev:1;)
-```
-
-#### TCP XMAS Scan
-
-- Hping3: 
-
-```
-sudo hping3 -V -p 80 -s 5050 -M 0 -UPF 10.0.0.10 -k
-```
-
-- Snort Rule: 
-
-```
-alert tcp $EXTERNAL_NET 5050 -> $HOME_NET 80 (msg:”Xmas Scan Detected”; flags:UPF; threshold:type threshold, track by_src, count 20, seconds 60; classtype:attempted-recon; sid:1000002; rev:1;)
-```
-#### TCP UDP Scan
-
-- Hping3: 
-
-```
-sudo hping3 -2 10.0.0.10 -p 53
-```
-
-- Snort Rule: 
-
-```
-alert udp $EXTERNAL_NET any -> $HOME_NET 53 (msg:”UDP SCAN DETECTED”; threshold:type threshold, track by_dst, count 20, seconds 60; classtype:attempted-recon; sid:10000006;rev:1;)
-```
 
 ### Vídeos:
 
- [[Cyber Security Project] Detecting DDOS Attacks and Port Scanning Techniques with Snort](https://www.youtube.com/watch?v=V7IQPRWobvQ&t=132s) 
+ [Installing & Configuring Snort por *HackerSploit*](https://www.youtube.com/watch?v=U6xMp-MIEfA)
+ [Intrusion Detection With Snort por *HackerSploit*](https://www.youtube.com/watch?v=Gh0sweT-G30)
 
 
 [^1]: O usuário pode optar, de acordo com a sua preferência, por outros aplicativos para criar as Máquinas Virtuais.
