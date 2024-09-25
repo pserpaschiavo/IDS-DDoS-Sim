@@ -85,7 +85,7 @@ Durante a instalação, será exibida uma tela para a identificação da interfa
 
 ![snort-interface](images/interface.png)
 
-- **Bloco de IP's/CIDR**: 10.0.0.0/24
+- **Bloco de IP's/CIDR**: 10.200.255.0/24
 
 ![snort-cidr](images/cidr.png)
 
@@ -98,7 +98,6 @@ snort -V
 
 ![snort-cidr](images/check-ok.png)
 
-
 Depois de verificar a instalação, faça o download das regras para o **Snort**[^4]:
 ```
 wget https://raw.githubusercontent.com/pserpaschiavo/IDS-DDoS-Sim/refs/heads/main/rules/lab_snort_rules.txt
@@ -109,20 +108,23 @@ Para inserir no arquivo `local.rules`:
 cat lab_snort_rules.txt | sudo tee /etc/snort/rules/local.rules
 ```
 
-## Simulações:
+Agora, digite o seguinte comando para configurar a interface no modo *"Promisc"*:
+```
+sudo ip link set enp0s8 promisc on
+```
 
-Abra dois terminais e faça o acesso remoto nas máquinas *Attacker* e *Gateway*:
+## Preparação do Ambiente de Simulações:
 
-### Terminal-1
+Na máquina virtual *Gateway*, acesse o arquivo `snort.conf`:
+```
+sudo nano /ect/snort/snort.conf
+```
+
+
+Ainda com o *Gateway* conectado, abra um novo terminal e faça o acesso remoto na máquina *Attacker*:
 
 ```
 vagrant ssh attacker
-```
-
-### Terminal-2
-
-```
-vagrant ssh gateway
 ```
 
 Para cada ataque realizado usando o **Hping3** *(Attacker)*, o usuário deve fazer alterações no arquivo de regras do **Snort** *(Gateway)*, retirando o caractere `#` no início da expressão do arquivo `/etc/snort/rules/local.rules`:
@@ -131,6 +133,7 @@ Para cada ataque realizado usando o **Hping3** *(Attacker)*, o usuário deve faz
 sudo nano /etc/snort/rules/local.rules
 ```
 
+- *Gateway*:
 - Regra Desativada:
 
 ```
@@ -287,3 +290,4 @@ alert udp $EXTERNAL_NET any -> $HOME_NET 53 (msg:”UDP SCAN DETECTED”; thresh
 [^1]: O usuário pode optar, de acordo com a sua preferência, por outros aplicativos para criar as Máquinas Virtuais.
 [^2]: É oferecido um script *Vagrantfile* com o objetivo de criar o laboratório virtual com todas aplicações (com excessão do **Snort**) e dependencias já instaladas. Entretanto, o uso do Vargrant é facultativo.
 [^*]: O uso inapropriado desse repositório é de responsabilidade do usuário.
+[^4]: Regras disponíveis no tutorial feito por [Bryan Matthehew](https://medium.com/@bmatth21/detecting-ddos-attacks-and-port-scanning-techniques-with-snort-11e249a5eba9).

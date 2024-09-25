@@ -1,45 +1,52 @@
-  ### Land Attack:
- 
+# $Id: local.rules,v 1.11 2004/07/23 20:15:44 bmc Exp $
+# ----------------
+# LOCAL RULES
+# ----------------
+# This file intentionally does not come with signatures.  Put your local
+# additions here.
+
+### Land Attack:
+
 # alert tcp $HOME_NET 80 <> $HOME_NET 80 (msg:”LAND ATTACK DETECTED”;sid:10000009;rev:3;)
- 
 
-  ### SYN Flood Attack:
- 
+
+### SYN Flood Attack:
+
 # alert tcp any any -> $HOME_NET 80 (threshold: type threshold, track by_dst, count 20, seconds 60; msg: “Possible TCP SYN Flood attack detected”; sid: 10000009; rev: 1;)
- 
 
-  ### Smurf Attack:
- 
+
+### Smurf Attack:
+
 # alert icmp $HOME_NET any -> 172.89.0.255 any (threshold: type threshold, track by_src, count 20, seconds 60;msg:”SMURF FLOODING ATTACK DETECTED”;sid:100000023;rev:1;)
- 
-    
-  ### UDP Flood Attack:
- 
+
+
+### UDP Flood Attack:
+
 # alert udp any any -> $HOME_NET 53 (threshold: type threshold, track by_src, count 10, seconds 60; msg:”UDP FLOODING ATTACK”;sid:10000007;rev:2;)
- 
+
 
 #  ### Realizando Scanner de Porta(*Port Scanning*) e Detectando-os:
 
-  ### TCP ACK Scan:
- 
+### TCP ACK Scan:
+
 # alert tcp $EXTERNAL_NET 5050 -> $HOME_NET 80 (threshold: type threshold, track by_dst, count 20, seconds 60; msg:”TCP SCAN DETECTED”;sid:10000007;rev:2;)
- 
 
-  ### TCP FIN Scan:
- 
+
+### TCP FIN Scan:
+
 # alert tcp $EXTERNAL_NET 5050 -> $HOME_NET 80 (msg:”TCP FIN Scan Detected”; flags:F; threshold:type threshold, track by_src, count 20, seconds 60;classtype:attempted-recon; sid:10000001; rev:1;)
- 
 
-  ### TCP NULL Scan:
- 
+
+### TCP NULL Scan:
+
 # alert tcp $EXTERNAL_NET 5050 -> $HOME_NET 80 (msg:”Null Scan Detected”; flags:0; threshold:type threshold, track by_src, count 20, seconds 60; classtype:attempted-recon; sid:1000002; rev:1;)
- 
 
-  ### TCP XMAS Scan:
- 
+
+### TCP XMAS Scan:
+
 # alert tcp $EXTERNAL_NET 5050 -> $HOME_NET 80 (msg:”Xmas Scan Detected”; flags:UPF; threshold:type threshold, track by_src, count 20, seconds 60; classtype:attempted-recon; sid:1000002; rev:1;)
 
 
-  ### TCP UDP Scan:
+### TCP UDP Scan:
 
 # alert udp $EXTERNAL_NET any -> $HOME_NET 53 (msg:”UDP SCAN DETECTED”; threshold:type threshold, track by_dst, count 20, seconds 60; classtype:attempted-recon; sid:10000006;rev:1;)

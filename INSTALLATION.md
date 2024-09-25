@@ -29,6 +29,8 @@ Para usuários de Windows, seguem os links necessários para a realização do d
 
 **Download**: https://developer.hashicorp.com/vagrant/install
 
+[Voltar para seção "Preparação das Máquinas Virtuais ](https://github.com/pserpaschiavo/IDS-DDoS-Sim?tab=readme-ov-file#prepara%C3%A7%C3%A3o-das-m%C3%A1quinas-virtuais)
+
 
 ## MacOS:
 
@@ -62,6 +64,8 @@ Para usuários de MacOS, seguem os links necessários para a realização do dow
 brew tap hashicorp/tap
 brew install hashicorp/tap/hashicorp-vagrant
 ```
+
+[Voltar para seção "Preparação das Máquinas Virtuais ](https://github.com/pserpaschiavo/IDS-DDoS-Sim?tab=readme-ov-file#prepara%C3%A7%C3%A3o-das-m%C3%A1quinas-virtuais)
 
 ## Linux
 
@@ -110,5 +114,9 @@ sudo dnf install -y dnf-plugins-core
 sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
 sudo dnf -y install vagrant
 ```
+
+[Voltar para seção "Preparação das Máquinas Virtuais ](https://github.com/pserpaschiavo/IDS-DDoS-Sim?tab=readme-ov-file#prepara%C3%A7%C3%A3o-das-m%C3%A1quinas-virtuais)
+
+[Voltar ao README](https://github.com/pserpaschiavo/IDS-DDoS-Sim?tab=readme-ov-file#ids-ddos-sim)
 
 [^1]: Os autores planejam para o futuro uma *Vagrant Box* pronta para uso.
