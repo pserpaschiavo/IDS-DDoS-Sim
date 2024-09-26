@@ -85,7 +85,7 @@ Durante a instalação, será exibida uma tela para a identificação da interfa
 
 - **Nome da Interface**: enp0s8 *(Primeiro pedido)*
 
-![snort-interface-entrada](images/interface-entrada.png.png)
+![snort-interface-entrada](images/interface-entrada.png)
 
 - **Bloco de IP's/CIDR**: 10.200.255.0/24 *(Segundo pedido)*
 
