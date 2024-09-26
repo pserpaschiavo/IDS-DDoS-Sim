@@ -85,7 +85,7 @@ Durante a instalação, será exibida uma tela para a identificação da interfa
 
 - **Nome da Interface**: enp0s8 *(Primeiro pedido)*
 
-![snort-interface](images/interface-entrada.png)
+![snort-interface-entrada](images/interface-entrada.png.png)
 
 - **Bloco de IP's/CIDR**: 10.200.255.0/24 *(Segundo pedido)*
 
@@ -93,7 +93,7 @@ Durante a instalação, será exibida uma tela para a identificação da interfa
 
 - **Nome da Interface**: enp0s9 *(Terceiro pedido)*
 
-![snort-interface](images/interface-saida.png)
+![snort-interface-saida](images/interface-saida.png)
 
 Após a instalação, verifique se foi concluida com sucesso:
 
@@ -164,11 +164,11 @@ Confira se as alterações foram feitas:
 
 Ainda com o *Gateway* conectado, abra um novo terminal e faça o acesso remoto na máquina *Attacker*:
 
-![terminais](images/terminais.png)
-
 ```
 vagrant ssh attacker
 ```
+
+![terminais](images/terminais.png)
 
 Acesse o link para a seção das [Simulações](https://github.com/pserpaschiavo/IDS-DDoS-Sim/blob/main/SIMULATION.md#simula%C3%A7%C3%B5es) para continuar...
 
@@ -176,7 +176,7 @@ Acesse o link para a seção das [Simulações](https://github.com/pserpaschiavo
 ### Vídeos:
 
  [Installing & Configuring Snort por *HackerSploit*](https://www.youtube.com/watch?v=U6xMp-MIEfA)
- 
+
  [Intrusion Detection With Snort por *HackerSploit*](https://www.youtube.com/watch?v=Gh0sweT-G30)
 
 
