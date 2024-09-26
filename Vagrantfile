@@ -2,7 +2,6 @@ Vagrant.configure("2") do |config|
     config.vm.define "gateway" do |gateway|
         gateway.vm.box = "ubuntu/focal64"
         gateway.vm.hostname = "gateway"
-        gateway.vm.network "private_network", ip: "11.0.0.10", virtualbox__intnet: true
         gateway.vm.network "private_network", ip: "172.89.0.10", virtualbox__intnet: true
         gateway.vm.network "private_network", ip: "10.200.255.10", virtualbox__intnet: true
 
@@ -11,7 +10,7 @@ Vagrant.configure("2") do |config|
         gateway.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
 
         gateway.vm.provision "shell", privileged: true, inline: <<-SHELL
-v            apt-get install -y net-tools
+            apt-get install -y net-tools
             ifconfig
         SHELL
 

@@ -19,16 +19,15 @@ sudo vi /etc/snort/rules/local.rules
 alert udp any any -> $HOME_NET 53 (threshold: type threshold, track by_src, count 10, seconds 60; msg:”UDP FLOODING ATTACK”;sid:10000007;rev:2;)
 ```
 
-Após descomentar a regra de interesse, o **Snort** deve ser ativado para exibir os alertas:
+**Após descomentar a regra de interesse, o **Snort** deve ser ativado para exibir os alertas:**
 
 ```
-
-
+sudo snort -q -l /var/log/snort -i enp0s8 -vbA console -c /etc/snort/snort.conf
 ```
 
 ## Testes preliminares:
 
-### Ping Detection (For Tests Purposes):
+### Ping Detection (Para Propósito de Testes):
 
 - Ping Command:
 
@@ -40,18 +39,11 @@ ping 10.200.255.100
 ```
 alert icmp $EXTERNAL_NET any -> $HOME_NET any (msg: “ICMP Ping Detected”; sid: 100001; rev:1;)
 ```
-### SSH Connection (For Tests Purposes):
 
-- SSH Command:
+Exemplo da saída:
 
-```
-ssh 10.200.255.100
-```
+![log-teste](images/log-teste.png)
 
-- Snort Rule:
-```
-alert tcp any any -> $HOME_NET 22 (msg:"SSH Authentication Attempt"; sid:100002; rev:1;)
-```
 
 ## Realizando Ataques de Negação de Serviço Distribuído (DDoS) e Detectando-os:
 

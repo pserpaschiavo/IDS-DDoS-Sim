@@ -76,8 +76,7 @@ vagrant ssh gateway
 Quando o acesso for realizado, digite o comando para a instalação do **Snort**:
 
 ```
-sudo apt update
-sudo apt install -y snort 
+sudo apt update && sudo apt install -y snort
 ```
 
 Durante a instalação, será exibida uma tela para a identificação da interface de rede:
@@ -92,7 +91,7 @@ Durante a instalação, será exibida uma tela para a identificação da interfa
 
 ![snort-cidr](images/cidr.png)
 
-- **Nome da Interface**: enp0s10 *(Terceiro pedido)*
+- **Nome da Interface**: enp0s9 *(Terceiro pedido)*
 
 ![snort-interface](images/interface-saida.png)
 
@@ -127,7 +126,7 @@ Na máquina virtual *Gateway*, acesse o arquivo `snort.conf`:
 > Aqui é usado o **Vi/Vim Text Editor**. Entretanto, fique a vontade para usar o editor de texto de sua preferência.
 
 ```
-sudo vi /ect/snort/snort.conf
+sudo vi /etc/snort/snort.conf
 ```
 
 Na linha 51, substitue o valor `ipvar HOME_NET any` por `ipvar HOME_NET 10.200.255.0/24`.
@@ -171,12 +170,13 @@ Ainda com o *Gateway* conectado, abra um novo terminal e faça o acesso remoto n
 vagrant ssh attacker
 ```
 
-Acesse o link para a seção das [Simulações]() para continuar...
+Acesse o link para a seção das [Simulações](https://github.com/pserpaschiavo/IDS-DDoS-Sim/blob/main/SIMULATION.md#simula%C3%A7%C3%B5es) para continuar...
 
 
 ### Vídeos:
 
  [Installing & Configuring Snort por *HackerSploit*](https://www.youtube.com/watch?v=U6xMp-MIEfA)
+ 
  [Intrusion Detection With Snort por *HackerSploit*](https://www.youtube.com/watch?v=Gh0sweT-G30)
 
 
